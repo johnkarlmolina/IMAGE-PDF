@@ -1,0 +1,306 @@
+/* ======================================================================
+   ImageToPdfConverter.module.css
+   Clean, modern styling for the Image-to-PDF converter component.
+   ====================================================================== */
+
+/* ── Wrapper ── */
+.wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.25rem 4rem;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: #1a1a2e;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 2.25rem;
+  max-width: 600px;
+}
+
+.headerIcon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 0.975rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Drop Zone ── */
+.dropzone {
+  width: 100%;
+  max-width: 640px;
+  border: 2.5px dashed #c4b5fd;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.07);
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: #6366f1;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 32px rgba(99, 102, 241, 0.15);
+  outline: none;
+}
+
+.dropzoneActive {
+  border-color: #6366f1;
+  background: rgba(238, 242, 255, 0.95);
+  transform: scale(1.015);
+  box-shadow: 0 8px 36px rgba(99, 102, 241, 0.2);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.dropzoneIcon {
+  font-size: 2.75rem;
+  margin-bottom: 0.85rem;
+  line-height: 1;
+}
+
+.dropzoneText {
+  font-size: 1rem;
+  color: #374151;
+  margin: 0 0 0.4rem;
+}
+
+.dropzoneHint {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* ── Error Banner ── */
+.errorBanner {
+  max-width: 640px;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  color: #b91c1c;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ── Preview Section ── */
+.previewSection {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 2.25rem;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.previewTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0;
+}
+
+.clearAllBtn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6366f1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.clearAllBtn:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+/* ── Thumbnail Grid ── */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.thumbnailWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBody {
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filename {
+  font-size: 0.78rem;
+  color: #4b5563;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.removeBtn {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  padding: 0.28rem 0.55rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  align-self: flex-start;
+}
+
+.removeBtn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* ── Download Button ── */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+  transition:
+    opacity 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.downloadBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.45);
+}
+
+.downloadBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.downloadBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.downloadBtnLoading {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+}
+
+/* ── Spinner ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .dropzone {
+    padding: 2rem 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
