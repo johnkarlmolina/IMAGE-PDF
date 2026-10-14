@@ -35,6 +35,41 @@ function loadImage(dataURL) {
   });
 }
 
+/**
+ * Compress an image for PDF embedding:
+ *  1. Cap resolution to A4 @ 150 DPI (1754 × 1240 px landscape) — enough for
+ *     crisp print output while drastically shrinking file size.
+ *  2. Fill transparent areas with white (PNG alpha → JPEG safe).
+ *  3. Re-encode as JPEG at 0.85 quality.
+ *
+ * Returns { dataURL, format, width, height } ready for doc.addImage().
+ */
+function compressImage(imgEl, maxW = 1754, maxH = 1240, quality = 0.85) {
+  const { naturalWidth: nw, naturalHeight: nh } = imgEl;
+
+  // Scale down only — never upscale
+  const scale = Math.min(maxW / nw, maxH / nh, 1);
+  const canvasW = Math.round(nw * scale);
+  const canvasH = Math.round(nh * scale);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = canvasW;
+  canvas.height = canvasH;
+
+  const ctx = canvas.getContext("2d");
+  // White background so transparent PNGs don't turn black in JPEG
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvasW, canvasH);
+  ctx.drawImage(imgEl, 0, 0, canvasW, canvasH);
+
+  return {
+    dataURL: canvas.toDataURL("image/jpeg", quality),
+    format: "JPEG",
+    width: canvasW,
+    height: canvasH,
+  };
+}
+
 // A4 page dimensions in mm (landscape)
 const A4_WIDTH_MM = 297;
 const A4_HEIGHT_MM = 210;
@@ -123,19 +158,20 @@ export default function ImageToPdfConverter() {
       for (let i = 0; i < images.length; i++) {
         const { dataURL, file } = images[i];
 
-        // Determine natural pixel dimensions
+        // Decode to get natural pixel dimensions
         const imgEl = await loadImage(dataURL);
-        const { naturalWidth, naturalHeight } = imgEl;
 
-        // Scale to fit within content area
-        const { w, h } = fitToDimensions(naturalWidth, naturalHeight);
+        // Compress: resize to A4@150dpi max, re-encode as JPEG 0.85
+        const compressed = compressImage(imgEl);
+
+        // Scale compressed pixel dims to mm for the PDF page
+        const { w, h } = fitToDimensions(compressed.width, compressed.height);
 
         // Centre the image on the page
         const x = MARGIN_MM + (CONTENT_WIDTH - w) / 2;
         const y = MARGIN_MM + (CONTENT_HEIGHT - h) / 2;
 
-        const format = resolveImageFormat(file);
-        doc.addImage(dataURL, format, x, y, w, h);
+        doc.addImage(compressed.dataURL, compressed.format, x, y, w, h);
 
         // Add a new page for every image except the last
         if (i < images.length - 1) doc.addPage();
